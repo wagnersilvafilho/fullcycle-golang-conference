@@ -67,13 +67,13 @@ func quit() {
 	os.Exit(0)
 }
 
-func returnToMenu(opcao string) {
+func returnToMenu(opcao *string) {
 	fmt.Println("\nDigite uma opção: ")
 	fmt.Println("1- Voltar ao menu anterior")
 	fmt.Println("0- Sair")
-	fmt.Scan(&opcao)
-	fmt.Println("A opção escolhida foi", opcao)
-	if opcao == "0" {
+	fmt.Scan(&*opcao)
+	fmt.Println("A opção escolhida foi", *opcao)
+	if *opcao == "0" {
 		quit()
 	}
 }
@@ -89,6 +89,7 @@ func printMenu() {
 func main() {
 	helloWorld()
 	var opcao string
+	var sptr *string = &opcao
 	a := 10
 	fmt.Println(a)
 	var pessoa Person
@@ -104,14 +105,14 @@ func main() {
 		switch opcao {
 		case "1":
 			contador(3)
-			returnToMenu(opcao)
+			returnToMenu(sptr)
 			break
 		case "2":
 			listenWebServer()
 			break
 		case "3":
 			checkPageUp()
-			returnToMenu(opcao)
+			returnToMenu(sptr)
 			break
 		case "0":
 			quit()
