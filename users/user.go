@@ -1,17 +1,31 @@
 package users
 
-type user struct {
-	Name string
-	Age  uint8
+import "errors"
+
+type profile struct {
+	user
+	Age uint8
 }
 
-func New(name string, age uint8) user {
-	return user{
-		Name: name,
-		Age:  age,
+func NewUser(name, username, pass string, age uint8) profile {
+	u := profile{Age: age}
+	u.user = user{
+		Name:     name,
+		Username: username,
+		Secret:   pass,
+		Type:     "user",
 	}
+
+	return u
 }
 
-func AddYear(u *user) {
-	u.Age++
+func (p profile) Validate() error {
+	err := p.user.Validate()
+	if err != nil {
+		return err
+	}
+	if p.Age < 15 {
+		return errors.New("min age is 15")
+	}
+	return nil
 }
