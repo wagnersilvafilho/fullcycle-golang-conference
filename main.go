@@ -1,24 +1,47 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"strconv"
 )
 
-func main() {
-	total, err := convertAndSum("1", "2", "5", "Q")
-	fmt.Println(total, err)
+type DB struct {
+	opened bool
 }
 
-func convertAndSum(s ...string) (total int, err error) {
-	for _, v := range s {
-		n, e := strconv.Atoi(v)
-		if e != nil {
-			total = 0
-			err = fmt.Errorf("valor '%s' é inválido.", v)
-			break
-		}
-		total += n
+func open() *DB {
+	db := new(DB)
+	db.opened = true
+	fmt.Println("connection opened")
+
+	return db
+}
+
+func save(db *DB) error {
+	if !db.opened {
+		return errors.New("could not save due to connection closed")
 	}
-	return
+	fmt.Println("data is saved")
+
+	return nil
+}
+
+func close(db *DB) {
+	if !db.opened {
+		fmt.Println("connection already closed")
+		fmt.Println("db status: ", db.opened)
+		return
+	}
+	db.opened = false
+	fmt.Println("connection is closed")
+	fmt.Println("db status: ", db.opened)
+}
+
+func main() {
+	db := open()
+	close(db)
+	defer close(db)
+
+	err := save(db)
+	fmt.Println(err)
 }
