@@ -1,0 +1,62 @@
+networks:
+  dev.golang.local:
+    external: true
+
+services:
+  # server:
+  #   image: sigfaz-php
+  #   container_name: server-sigfaz
+  #   build: ./docker/server
+  #   working_dir: /var/www/html/sigfaz/piloto
+  #   volumes:
+  #     - ./:/var/www/html/sigfaz/piloto
+  #   expose:
+  #     - "9000"
+  #   networks:
+  #     dev.sigfaz.local:
+  #       ipv4_address: 192.168.5.83
+
+  # balance:
+  #   image: nginx:1.23.3-alpine
+  #   container_name: balance-sigfaz
+  #   working_dir: /var/www/html/sigfaz/piloto
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./docker/balance/:/etc/nginx/conf.d/
+  #     - ./storage/logs/nginx/:/var/log/nginx
+  #     - ./:/var/www/html/sigfaz/piloto
+  #   networks:
+  #     dev.sigfaz.local:
+  #       ipv4_address: 192.168.5.80
+
+  database:
+    image: postgres
+    container_name: db-golang
+    environment:
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./:/tmp/
+    networks:
+      dev.golang.local:
+        ipv4_address: 192.168.4.81
+
+  queue:
+    image: rabbitmq:3
+    container_name: queue_golang
+    ports:
+      - '5672:5672'
+
+  # pma:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: pma-sigfaz
+  #   environment:
+  #     PMA_HOST: database
+  #     PMA_USER: root
+  #     PMA_PASSWORD: sigfaz
+  #   networks:
+  #     dev.sigfaz.local:
+  #       ipv4_address: 192.168.5.82

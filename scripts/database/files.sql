@@ -8,7 +8,7 @@ CREATE TABLE files (
     created_at TIMESTAMP DEFAULT current_timestamp,
     modified_at TIMESTAMP NOT NULL,
     deleted BOOL NOT NULL DEFAULT false,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
     CONSTRAINT fk_folders FOREIGN KEY(folder_id) REFERENCES folders(id),
     CONSTRAINT fk_owner FOREIGN KEY(owner_id) REFERENCES users(id)
 );
