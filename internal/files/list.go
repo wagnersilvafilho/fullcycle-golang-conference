@@ -3,7 +3,7 @@ package files
 import "database/sql"
 
 func List(db *sql.DB, folderID int64) ([]File, error) {
-	stmt := `SELECT * FROM files where folder_id = $1`
+	stmt := `SELECT * FROM files where "folder_id" = $1 AND "deleted"=false`
 	rows, err := db.Query(stmt, folderID)
 	if err != nil {
 		return nil, err
