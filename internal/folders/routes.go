@@ -15,4 +15,6 @@ func SetRoutes(r chi.Router, db *sql.DB) {
 
 	r.Post("/", h.Create)
 	r.Put("/", h.Modify)
+	r.Get("/{id}", h.Get)
+	r.Delete("/{id}", h.Delete)
 }
