@@ -9,7 +9,9 @@ require (
 	github.com/rabbitmq/amqp091-go v1.10.0
 )
 
+require github.com/golang-jwt/jwt/v5 v5.2.1
+
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.2 // indirect
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )
